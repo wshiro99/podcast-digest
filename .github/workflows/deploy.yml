@@ -1,6 +1,9 @@
 name: Fetch Podcast Digest and Deploy to Pages
 
 on:
+  push:
+    paths:
+      - 'data/history.json'
   schedule:
     - cron: '0 8 * * *' # 每天早上 8 點 (UTC)
   workflow_dispatch: # 允許手動觸發
