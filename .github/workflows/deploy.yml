@@ -34,7 +34,15 @@ jobs:
         run: |
           mkdir -p data
           python src/main.py
-          
+
+      - name: Commit and Push History
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/history.json
+          # 如果檔案有變更才進行 commit 與 push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update podcast history" && git push)
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
