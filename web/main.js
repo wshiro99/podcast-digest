@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       
       const title = document.createElement('h2');
       title.className = 'card-title';
-      title.innerHTML = `<a href="${item.url}" target="_blank" rel="noopener noreferrer">影片 ID: ${item.id}</a>`;
+      title.innerHTML = `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>`;
       
       const date = document.createElement('span');
       date.className = 'card-date';
@@ -35,7 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       
       const body = document.createElement('div');
       body.className = 'card-body';
-      body.textContent = item.digest;
+      // Use marked to parse the markdown digest into HTML
+      if (typeof marked !== 'undefined') {
+        body.innerHTML = marked.parse(item.digest);
+      } else {
+        body.textContent = item.digest;
+      }
       
       card.appendChild(header);
       card.appendChild(body);

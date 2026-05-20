@@ -112,8 +112,47 @@ body {
 }
 
 .card-body {
-  white-space: pre-wrap;
   font-size: 1rem;
+  line-height: 1.7;
+  color: #e2e8f0;
+}
+
+/* Markdown Styles inside .card-body */
+.card-body h1, .card-body h2, .card-body h3 {
+  color: var(--accent);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.card-body h3 {
+  font-size: 1.15rem;
+}
+
+.card-body p {
+  margin-bottom: 1rem;
+}
+
+.card-body ul, .card-body ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.card-body li {
+  margin-bottom: 0.5rem;
+}
+
+.card-body strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.card-body blockquote {
+  border-left: 4px solid var(--accent);
+  margin: 1rem 0;
+  padding-left: 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 
 footer {

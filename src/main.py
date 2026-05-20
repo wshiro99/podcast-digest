@@ -47,7 +47,7 @@ def download_audio(url: str, output_path: str) -> str:
     print("下載完成！")
     return output_path
 
-def generate_digest(audio_path: str) -> str:
+def generate_digest(audio_path: str, original_title: str) -> str:
     print("上傳音訊至 Gemini...")
     audio_file = genai.upload_file(path=audio_path)
     
@@ -61,7 +61,21 @@ def generate_digest(audio_path: str) -> str:
         
     print("\n音訊就緒，開始分析...")
     model = genai.GenerativeModel(MODEL_NAME)
-    prompt = "請聆聽這段音訊（主要為日文），提取核心觀點、市場洞察與關鍵時間點，並摘要為中文，特別留意新創術語（如 PMF, Series A）的精確度。"
+    
+    prompt = f"""
+這段音訊的原始日文標題是：「{original_title}」。
+
+請你扮演專業的創投與科技媒體編輯，聆聽這段音訊並完成以下兩件事：
+1. 【標題翻譯】：請在回覆的「第一行」單獨輸出這句標題的「繁體中文翻譯」（不需要任何前綴詞或引號）。
+2. 【結構化摘要】：從第二行開始，請提供排版精美、高度易讀的中文摘要。
+
+【摘要排版要求】：
+- 請使用 Markdown 格式（如粗體、條列清單）。
+- 版面必須乾淨俐落，請過濾掉閒聊與冗言贅字。
+- 請多使用 Emoji 來增加閱讀的趣味性與視覺引導（如 💡, 🚀, 💰, 📉 等）。
+- 結構建議包含：「核心亮點」、「市場洞察」、「給創業者的啟發」。
+- 遇到專有名詞（如 PMF, Series A, SaaS）請保留英文或括號標註。
+"""
     
     response = model.generate_content([prompt, audio_file])
     
@@ -115,8 +129,15 @@ def process_feeds():
             
         try:
             download_audio(audio_url, TEMP_AUDIO)
-            digest = generate_digest(TEMP_AUDIO)
+            raw_response = generate_digest(TEMP_AUDIO, title)
             
+            # 解析第一行的中文標題與後續的摘要
+            lines = raw_response.strip().split('\n', 1)
+            title_zh = lines[0].strip()
+            # 如果 AI 沒有換行，就整段當作摘要
+            digest = lines[1].strip() if len(lines) > 1 else raw_response.strip()
+            
+            print(f"\n[中文標題]: {title_zh}")
             print("\n[AI 摘要結果]\n")
             print(digest)
             print("\n-----------------------------------\n")
@@ -124,7 +145,8 @@ def process_feeds():
             new_entry = {
                 "id": entry_id,
                 "url": link,
-                "title": f"[{feed_name}] {title}",
+                "title": f"[{feed_name}] {title_zh}",
+                "original_title": title,
                 "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "digest": digest
             }
