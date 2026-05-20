@@ -76,6 +76,7 @@ def generate_digest(audio_path: str, original_title: str) -> str:
 - 請使用 Markdown 格式（如粗體、條列清單），不要使用 Emoji。
 - 結構建議包含：「核心觀點」、「市場洞察」、「給創業者的啟發」。
 - 遇到專有名詞（如 PMF, Series A, SaaS）請保留英文或括號標註。
+- 每篇最後提供一句話Takeaway，內容由AI下註解，並用粗體標註。
 """
     
     response = model.generate_content([prompt, audio_file])
