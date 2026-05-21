@@ -15,7 +15,7 @@ if sys.stdout.encoding != 'utf-8':
 load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-flash-latest" # 或者是你未來想用的任何新模型
 HISTORY_FILE = os.path.join("data", "history.json")
 FEEDS_FILE = os.path.join("config", "rss_feeds.json")
 TEMP_AUDIO = "temp_audio.mp3"
