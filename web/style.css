@@ -162,3 +162,108 @@ footer {
   font-size: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
+
+/* NEW Badge */
+.badge-new {
+  display: inline-block;
+  background: linear-gradient(45deg, #f43f5e, #fb923c);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Expand / Collapse Logic */
+.card-content-wrapper {
+  position: relative;
+}
+
+.card-content-wrapper.collapsed .card-body {
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.card-content-wrapper.collapsed::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(30, 41, 59, 1) 90%);
+  pointer-events: none;
+}
+
+/* Read More Button */
+.read-more-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.read-more-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--accent);
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.read-more-btn:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 0 2rem;
+}
+
+.page-btn {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.page-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
